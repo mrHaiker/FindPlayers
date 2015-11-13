@@ -5,31 +5,23 @@ $('#search').keyup(function () {
     function SearchInArray (inp, array){
         // создаем цикл по проверке слов из input
         for(var i=0;i<inp.length;i++){
-            //Brazil inp[0] / Midfield inp[1]
-            var bool, exception, tempInp;
+            var bool = false, // boolean значение которое по окончанию функции будет возвращать результат
+                exception = false, // исключение
+                tempInp = inp[i]; // временная переменная которая принимает значение слова
             // условие на исключение
             if(inp[i].charAt(0) == '-') {
                 bool = true;
                 exception = true;
-                if(inp[i].length===1) { // не будет производить исключение если указан только -
-                    tempInp='--/'; // присвоение для остановки поиска
-                } else {
-                    tempInp = inp[i].substr(1,inp[i].length);
-                }
-            } else {
-                bool = false;
-                exception = false;
-                tempInp = inp[i];
+                tempInp = inp[i].substr(1,inp[i].length);
             }
             // цикл на сравнение с данными их базы
             for(var j=0;j<array.length;j++){
-                //Brazil array[0]
                 var newExp = new RegExp(tempInp, "i");
                 if(array[j].search(newExp) != -1) {
-                    if(exception){ // поиск с исключением
+                    if(exception && inp[i].length>2){ // поиск с исключением если после минуса идет хотябы 2 знака
                         bool = false;
                         break;
-                    } else { // поиск без исключения
+                    } else if(!exception){ // поиск без исключения
                         bool = true;
                         break;
                     }
@@ -39,10 +31,10 @@ $('#search').keyup(function () {
         }
         return bool;
     }
-
+    // получение данных с сервера
     $.getJSON('json/players.json', function (data) {
-        var output = '<ul class="results">';
-        var allItems = 0;
+        var output = '<ul class="results">'; // новая переменная на выводa
+        var allItems = 0; // переменная которая выведет количество найденых совпадений
         $.each(data, function (key, val) {
             var strSearchBox = val.position+" "+val.nationality+" "+val.name+" "+val.id;
             var SearchBox = strSearchBox.split(' ');
@@ -61,16 +53,14 @@ $('#search').keyup(function () {
                 output += '</li>';
             }
         });
-        // вывод на главный экран
-        // если в input ничего не указано, количество найденных элементов не будет выводится
+        // вывод на экран
         var findItems = '';
-
+        // если в input ничего не указано, количество найденных элементов не будет выводится
         if(allItems!=data.length && allItems!=0){
             findItems += 'Найдено ';
             findItems += allItems;
             findItems += ' елементов';
         }
-
         // если найденых элементов = 0 -> выдим алерт и убираем строку с результатом
         if (allItems === 0) {
             output = '<div class="alert alert-danger" role="alert"><b>Увы</b>, но по Вашему запросу ничего не найдено</div>';
