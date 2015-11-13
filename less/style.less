@@ -1,6 +1,10 @@
 @blue: #434753;
 @colorTitle: #5f6270;
 
+.transition {
+  transition: all .5s ease;
+}
+
 body {
   overflow: hidden;
 }
@@ -55,4 +59,26 @@ footer {
   background: @blue;
   border-bottom: 2px solid #3a3d46;
   border-top: 2px solid #484b53;
+  .footer-nav {
+    position: absolute;
+    width: 600px;
+    margin-left: -300px;
+    left: 50%;
+    height: 100%;
+    text-align: center;
+    font-size: 0;
+    a {
+      text-transform: uppercase;
+      color: #fff;
+      padding: 33px;
+      line-height: 80px;
+      text-decoration: none;
+      font-size: 14px;
+      .transition;
+      &:hover {
+        background: #5F6473;
+        .transition;
+      }
+    }
+  }
 }
