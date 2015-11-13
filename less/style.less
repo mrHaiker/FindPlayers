@@ -137,17 +137,15 @@
   footer {
     position: absolute;
     bottom: 0;
-    height: 80px;
     width: 100%;
     background: @blue;
     border-bottom: 2px solid #3a3d46;
     border-top: 2px solid #484b53;
+    @media screen and (max-width: 570px){
+      position: relative;
+    }
     .footer-nav {
-      position: absolute;
-      width: 600px;
-      margin-left: -300px;
-      left: 50%;
-      height: 100%;
+      padding: 0 15px;
       text-align: center;
       font-size: 0;
       a {
@@ -161,6 +159,12 @@
         &:hover {
           background: #5F6473;
           .transition;
+        }
+        @media screen and (max-width: 570px){
+          display: block;
+          border-bottom: 1px solid #5F6473;
+          padding: 0;
+          margin: 0 -15px;
         }
       }
     }
