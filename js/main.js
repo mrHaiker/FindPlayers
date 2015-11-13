@@ -3,16 +3,16 @@ $('#search').keyup(function () {
     var tempArray = textInput.split(' ');
 
     function SearchInArray (inp, array){
-        // создаем цикл по проверке слов из input
+        // СЃРѕР·РґР°РµРј С†РёРєР» РїРѕ РїСЂРѕРІРµСЂРєРµ СЃР»РѕРІ РёР· input
         for(var i=0;i<inp.length;i++){
             //Brazil inp[0] / Midfield inp[1]
             var bool, exception, tempInp;
-            // условие на исключение
+            // СѓСЃР»РѕРІРёРµ РЅР° РёСЃРєР»СЋС‡РµРЅРёРµ
             if(inp[i].charAt(0) == '-') {
                 bool = true;
                 exception = true;
-                if(inp[i].length===1) { // не будет производить исключение если указан только -
-                    tempInp='--/'; // присвоение для остановки поиска
+                if(inp[i].length===1) { // РЅРµ Р±СѓРґРµС‚ РїСЂРѕРёР·РІРѕРґРёС‚СЊ РёСЃРєР»СЋС‡РµРЅРёРµ РµСЃР»Рё СѓРєР°Р·Р°РЅ С‚РѕР»СЊРєРѕ -
+                    tempInp='--/'; // РїСЂРёСЃРІРѕРµРЅРёРµ РґР»СЏ РѕСЃС‚Р°РЅРѕРІРєРё РїРѕРёСЃРєР°
                 } else {
                     tempInp = inp[i].substr(1,inp[i].length);
                 }
@@ -21,15 +21,15 @@ $('#search').keyup(function () {
                 exception = false;
                 tempInp = inp[i];
             }
-            // цикл на сравнение с данными их базы
+            // С†РёРєР» РЅР° СЃСЂР°РІРЅРµРЅРёРµ СЃ РґР°РЅРЅС‹РјРё РёС… Р±Р°Р·С‹
             for(var j=0;j<array.length;j++){
                 //Brazil array[0]
                 var newExp = new RegExp(tempInp, "i");
                 if(array[j].search(newExp) != -1) {
-                    if(exception){ // поиск с исключением
+                    if(exception){ // РїРѕРёСЃРє СЃ РёСЃРєР»СЋС‡РµРЅРёРµРј
                         bool = false;
                         break;
-                    } else { // поиск без исключения
+                    } else { // РїРѕРёСЃРє Р±РµР· РёСЃРєР»СЋС‡РµРЅРёСЏ
                         bool = true;
                         break;
                     }
@@ -42,13 +42,13 @@ $('#search').keyup(function () {
 
     $.getJSON('json/players.json', function (data) {
         var output = '<ul class="results">';
+        console.log(data);
         $.each(data, function (key, val) {
             var strSearchBox = val.position+" "+val.nationality+" "+val.name+" "+val.id;
             var SearchBox = strSearchBox.split(' ');
             if(SearchInArray(tempArray,SearchBox)){
                 output += '<li>';
                 output += '<div class="thumbnail ">';
-                //output += '<div class="image"></div>';
                 output += '<img src="http://placehold.it/150x150" alt="">';
                 output += '<div class="title">';
                 output += '<h2 class="name">' + val.name + '</h2>';
@@ -56,12 +56,11 @@ $('#search').keyup(function () {
                 output += '<p class="position">' + val.position + '</p>';
                 output += '<p class="nationaly">' + val.nationality + '</p>';
                 output += '<p class="marketValue">' + val.marketValue + '</p>';
-
                 output += '</div>';
                 output += '</li>';
             }
         });
-        // вывод
+        // РІС‹РІРѕРґ
         output += '</ul>'
         if(textInput === ''){
             //var output = '<ul class="results"></ul>';
