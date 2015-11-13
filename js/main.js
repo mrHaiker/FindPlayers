@@ -7,13 +7,26 @@ $('#search').keyup(function () {
         for(var i=0;i<inp.length;i++){
             var bool = false, // boolean значение которое по окончанию функции будет возвращать результат
                 exception = false, // исключение
-                tempInp = inp[i]; // временная переменная которая принимает значение слова
+                tempInp = valid(inp[i]); // временная переменная которая принимает значение слова
+
             // условие на исключение
             if(inp[i].charAt(0) == '-') {
                 bool = true;
                 exception = true;
                 tempInp = inp[i].substr(1,inp[i].length);
             }
+            
+            // тест на валидность
+            function valid (param) {
+                var regex = ['*', '+', '#', '@', '!', '$', '%', '^', '&', '*', '(', ')', '_', '=', '/', '[', ']', '|'];
+                for (var j = 0; j < regex.length; j++) {
+                    if (param.charAt(0) == regex[j]) {
+                        return false;
+                    }
+                }
+                return param;
+            }
+
             // цикл на сравнение с данными их базы
             for(var j=0;j<array.length;j++){
                 var newExp = new RegExp(tempInp, "i");
@@ -31,6 +44,7 @@ $('#search').keyup(function () {
         }
         return bool;
     }
+
     // получение данных с сервера
     $.getJSON('json/players.json', function (data) {
         var output = '<ul class="results">'; // новая переменная на выводa
@@ -56,7 +70,7 @@ $('#search').keyup(function () {
         // вывод на экран
         var findItems = '';
         // если в input ничего не указано, количество найденных элементов не будет выводится
-        if(allItems!=data.length && allItems!=0){
+        if(allItems!=0 && tempArray!=''){
             findItems += 'Найдено ';
             findItems += allItems;
             findItems += ' елементов';
