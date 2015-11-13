@@ -47,10 +47,17 @@ $('#search').keyup(function () {
             var SearchBox = strSearchBox.split(' ');
             if(SearchInArray(tempArray,SearchBox)){
                 output += '<li>';
-                output += '<h2>' + val.name + '</h2>';
-                output += '<p>' + val.id+ '</p>';
-                output += '<p>' + val.position + '</p>';
-                output += '<p>' + val.nationality + '</p>';
+                output += '<div class="thumbnail ">';
+                //output += '<div class="image"></div>';
+                output += '<img src="http://placehold.it/150x150" alt="">';
+                output += '<div class="title">';
+                output += '<h2 class="name">' + val.name + '</h2>';
+                output += '<p class="id">' + val.id+ '</p>';
+                output += '<p class="position">' + val.position + '</p>';
+                output += '<p class="nationaly">' + val.nationality + '</p>';
+                output += '<p class="marketValue">' + val.marketValue + '</p>';
+
+                output += '</div>';
                 output += '</li>';
             }
         });
