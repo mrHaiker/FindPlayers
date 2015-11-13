@@ -42,17 +42,18 @@ $('#search').keyup(function () {
 
     $.getJSON('json/players.json', function (data) {
         var output = '<ul class="results">';
-        console.log(data);
+        var allItems = 0;
         $.each(data, function (key, val) {
             var strSearchBox = val.position+" "+val.nationality+" "+val.name+" "+val.id;
             var SearchBox = strSearchBox.split(' ');
-            if(SearchInArray(tempArray,SearchBox)){
+            if(SearchInArray(tempArray,SearchBox)) {
+                allItems += 1;
                 output += '<li>';
                 output += '<div class="thumbnail ">';
                 output += '<img src="http://placehold.it/150x150" alt="">';
                 output += '<div class="title">';
                 output += '<h2 class="name">' + val.name + '</h2>';
-                output += '<p class="id">' + val.id+ '</p>';
+                output += '<p class="id">' + val.id + '</p>';
                 output += '<p class="position">' + val.position + '</p>';
                 output += '<p class="nationaly">' + val.nationality + '</p>';
                 output += '<p class="marketValue">' + val.marketValue + '</p>';
@@ -60,11 +61,25 @@ $('#search').keyup(function () {
                 output += '</li>';
             }
         });
-        // вывод
-        output += '</ul>'
+        // вывод на главный экран
+        // если в input ничего не указано, количество найденных элементов не будет выводится
+        var findItems = '';
+
+        if(allItems!=data.length && allItems!=0){
+            findItems += 'Найдено ';
+            findItems += allItems;
+            findItems += ' елементов';
+        }
+
+        // если найденых элементов = 0 -> выдим алерт и убираем строку с результатом
+        if (allItems === 0) {
+            output = '<div class="alert alert-danger" role="alert"><b>Увы</b>, но по Вашему запросу ничего не найдено</div>';
+        }
+        $('#find-items').text(findItems);
+
+        output += '</ul>';
         if(textInput === ''){
-            //var output = '<ul class="results"></ul>';
-            var output = '';
+            output = '';
         }
         $('.update').html(output);
     });
