@@ -1,37 +1,36 @@
 $('#search').keyup(function () {
     var textInput = $('#search').val();
     var tempArray = textInput.split(' ');
-
+    
     function SearchInArray (inp, array){
         // создаем цикл по проверке слов из input
-        for(var i=0;i<inp.length;i++){
-            var bool = false, // boolean значение которое по окончанию функции будет возвращать результат
-                exception = false, // исключение
-                tempInp = valid(inp[i]); // временная переменная которая принимает значение слова
+        for(var i=0; i<inp.length; i++){
+            var bool = false,
+                exception = false,
+                tempInp = detailedSearch(valid(inp[i])); // временная переменная которая принимает значение полученого слова
 
             // условие на исключение
-            if(inp[i].charAt(0) == '-') {
+            if(tempInp.charAt(0) == '-') {
                 bool = true;
                 exception = true;
-                tempInp = inp[i].substr(1,inp[i].length);
+                tempInp = tempInp.substr(1,tempInp.length);
             }
-            
+
             // тест на валидность
             function valid (param) {
                 var regex = ['*','+','#','@','!','$','%','^','&','*','(',')','_','=','/','[',']','|',',','.'];
                 for (var j = 0; j < regex.length; j++) {
                     if (param.charAt(0) == regex[j]) {
-                        return false;
+                        return 'xxx';
                     }
                 }
                 return param;
             }
-
-            //function detailedSearch (param) {
-            //    if (param.charAt(0) == '"' && param.charAt(inp[i].langth) == '"' && param.length > 1) {
-            //        return tempInp = param.substr(1, param.length - 2);
-            //    }
-            //}
+             //возможность ввода со скобками
+            function detailedSearch (param) {
+                console.log(param);
+               return param.replace(/"+/g, '');
+            }
 
             // цикл на сравнение с данными их базы
             for(var j=0;j<array.length;j++){
