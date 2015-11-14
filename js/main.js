@@ -1,6 +1,7 @@
 $('#search').keyup(function () {
     var textInput = $('#search').val();
     var tempArray = textInput.split(' ');
+    console.log(tempArray);
 
     function SearchInArray (inp, array){
         // создаем цикл по проверке слов из input
@@ -18,7 +19,7 @@ $('#search').keyup(function () {
             
             // тест на валидность
             function valid (param) {
-                var regex = ['*', '+', '#', '@', '!', '$', '%', '^', '&', '*', '(', ')', '_', '=', '/', '[', ']', '|'];
+                var regex = ['*','+','#','@','!','$','%','^','&','*','(',')','_','=','/','[',']','|',',','.'];
                 for (var j = 0; j < regex.length; j++) {
                     if (param.charAt(0) == regex[j]) {
                         return false;
@@ -34,7 +35,7 @@ $('#search').keyup(function () {
                     if(exception && inp[i].length>2){ // поиск с исключением если после минуса идет хотябы 2 знака
                         bool = false;
                         break;
-                    } else if(!exception){ // поиск без исключения
+                    } else if(!exception && (inp[i].length>0 || i != 0)){ // поиск без исключения
                         bool = true;
                         break;
                     }
