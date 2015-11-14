@@ -1,7 +1,6 @@
 $('#search').keyup(function () {
     var textInput = $('#search').val();
     var tempArray = textInput.split(' ');
-    console.log(tempArray);
 
     function SearchInArray (inp, array){
         // создаем цикл по проверке слов из input
@@ -28,11 +27,17 @@ $('#search').keyup(function () {
                 return param;
             }
 
+            //function detailedSearch (param) {
+            //    if (param.charAt(0) == '"' && param.charAt(inp[i].langth) == '"' && param.length > 1) {
+            //        return tempInp = param.substr(1, param.length - 2);
+            //    }
+            //}
+
             // цикл на сравнение с данными их базы
             for(var j=0;j<array.length;j++){
                 var newExp = new RegExp(tempInp, "i");
                 if(array[j].search(newExp) != -1) {
-                    if(exception && inp[i].length>2){ // поиск с исключением если после минуса идет хотябы 2 знака
+                    if(exception && ((inp[i].length>0 && i==0) || (i != 0 && inp[i].length>2))){ // поиск с исключением
                         bool = false;
                         break;
                     } else if(!exception && (inp[i].length>0 || i != 0)){ // поиск без исключения
