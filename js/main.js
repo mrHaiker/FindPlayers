@@ -1,58 +1,59 @@
 $('#search').keyup(function () {
     var textInput = $('#search').val();
     var tempArray = textInput.split(' ');
-    
+
     function SearchInArray (inp, array){
-        // создаем цикл по проверке слов из input
-        for(var i=0; i<inp.length; i++){
-            var bool = false,
-                exception = false,
-                tempInp = detailedSearch(valid(inp[i])); // временная переменная которая принимает значение полученого слова
 
-            // условие на исключение
-            if(tempInp.charAt(0) == '-') {
-                bool = true;
-                exception = true;
-                tempInp = tempInp.substr(1,tempInp.length);
-            }
-
-            // тест на валидность
-            function valid (param) {
-                var regex = ['*','+','#','@','!','$','%','^','&','*','(',')','_','=','/','[',']','|',',','.'];
-                for (var j = 0; j < regex.length; j++) {
-                    if (param.charAt(0) == regex[j]) {
-                        return 'xxx';
-                    }
-                }
-                return param;
-            }
-             //возможность ввода со скобками
-            function detailedSearch (param) {
-                console.log(param);
-               return param.replace(/"+/g, '');
-            }
-
-            // цикл на сравнение с данными их базы
-            for(var j=0;j<array.length;j++){
-                var newExp = new RegExp(tempInp, "i");
-                if(array[j].search(newExp) != -1) {
-                    if(exception && ((inp[i].length>0 && i==0) || (i != 0 && inp[i].length>2))){ // поиск с исключением
-                        bool = false;
-                        break;
-                    } else if(!exception && (inp[i].length>0 || i != 0)){ // поиск без исключения
-                        bool = true;
-                        break;
-                    }
+        // внутреннии функции
+        function valid(param) { // тест на валидность
+            var regex = ['*', '+', '#', '@', '!', '$', '%', '^', '&', '*', '(', ')', '_', '=', '/', '[', ']', '|', ',', '.'];
+            for (var j = 0; j < regex.length; j++) {
+                if (param.charAt(0) == regex[j]) {
+                    return false;
                 }
             }
-            if(!bool) return false;
+            return true;
         }
-        return bool;
+        function detailedSearch(param) { //исключение скобок для поиска
+            return param.replace(/"+/g, '');
+        }
+
+
+        for(var i=0; i<inp.length; i++){ // создаем цикл по проверке слов из input
+            var bool = false,
+                exception = false;
+
+            if (valid(inp[i])) {
+                var tempInp = detailedSearch(inp[i]); // возвращает значение исключая скобки
+
+                if (tempInp.charAt(0) == '-') { // условие на исключение
+                    bool = true;
+                    exception = true;
+                    tempInp = tempInp.substr(1, tempInp.length);
+                }
+
+                for (var j = 0; j < array.length; j++) { // цикл на сравнение с данными их базы
+                    var newExp = new RegExp(tempInp, "i");
+                    if (array[j].search(newExp) != -1) {
+                        if (exception && ((inp[i].length > 0 && i == 0) || (i != 0 && inp[i].length > 2))) { // поиск с исключением
+                            bool = false;
+                            break;
+                        } else if (!exception && (inp[i].length > 0 || i != 0)) { // поиск без исключения
+                            bool = true;
+                            break;
+                        }
+                    }
+                }
+                if (!bool) return false;
+            }
+
+        }
+        return bool; // возвращает результат сравнения
     }
 
     // получение данных с сервера
     $.getJSON('json/players.json', function (data) {
-        var output = '<ul class="results">'; // новая переменная на выводa
+        var output = '<ul class="results">';
         var allItems = 0; // переменная которая выведет количество найденых совпадений
         $.each(data, function (key, val) {
             var strSearchBox = val.position+" "+val.nationality+" "+val.name+" "+val.id;
@@ -74,22 +75,37 @@ $('#search').keyup(function () {
         });
         // вывод на экран
         var findItems = '';
-        // если в input ничего не указано, количество найденных элементов не будет выводится
-        if(allItems!=0 && tempArray!=''){
+
+        if(allItems!=0 && tempArray!=''){ // если в input ничего не указано, количество найденных элементов не будет выводится
             findItems += 'Найдено ';
             findItems += allItems;
             findItems += ' елементов';
         }
-        // если найденых элементов = 0 -> выдим алерт и убираем строку с результатом
-        if (allItems === 0) {
+
+        if (allItems === 0) {  // если найденых элементов = 0 -> выдим алерт и убираем строку с результатом
             output = '<div class="alert alert-danger" role="alert"><b>Увы</b>, но по Вашему запросу ничего не найдено</div>';
         }
-        $('#find-items').text(findItems);
 
+        $('#find-items').text(findItems);
         output += '</ul>';
         if(textInput === ''){
             output = '';
         }
+
         $('.update').html(output);
     });
 });
+
+// анимация со ссылками
+setTimeout(function(){
+    $('#first-article').fadeIn(400);
+}, 100);
+setTimeout(function(){
+    $('#second-article').fadeIn(400);
+}, 300);
+setTimeout(function(){
+    $('#third-article').fadeIn(400);
+}, 500);
+setTimeout(function(){
+    $('#fourth-article').fadeIn(400);
+}, 700);

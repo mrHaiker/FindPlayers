@@ -18,12 +18,13 @@ body {
     padding: 0 15px;
     background: @blue;
     border-bottom: 3px solid #101010;
-    height: 80px;
+    height: 62px;
     .logo {
       background: url(../img/logo.png) no-repeat center;
       background-size: contain;
-      height: 80px;
+      height: 54px;
       width: 225px;
+      margin: 3px 0;
     }
   }
   section {
@@ -57,13 +58,16 @@ body {
         margin-top: 50px;
         text-align: left;
         color: #bdbdbd;
-        h3 {
-          color: @colorTitle;
-          font-size: 20px;
-          margin-bottom: 5px;
-        }
-        a {
-          color: #bdbdbd;
+        .article {
+          display: none;
+          h3 {
+            color: @colorTitle;
+            font-size: 20px;
+            margin-bottom: 5px;
+          }
+          a {
+            color: #bdbdbd;
+          }
         }
       }
       .results {
@@ -106,6 +110,9 @@ body {
             .title {
               display: inline-block;
               vertical-align: top;
+              @media screen and (max-width: 500px){
+                margin-left: 10px;
+              }
               .nationaly {
                 font-weight: bold;
                 position: absolute;
@@ -174,4 +181,11 @@ body {
       }
     }
   }
+}
+
+.no-margin {
+  margin: 0;
+}
+#first-title {
+  margin-top: 0;
 }
