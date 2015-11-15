@@ -25,7 +25,7 @@ $('#search').keyup(function () {
 
             if (valid(inp[i])) {
                 var tempInp = detailedSearch(inp[i]); // возвращает значение исключая скобки
-                console.log(tempInp);
+
                 if (tempInp.charAt(0) == '-') { // условие на исключение
                     bool = true;
                     exception = true;
