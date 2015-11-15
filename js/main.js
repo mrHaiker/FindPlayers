@@ -25,7 +25,7 @@ $('#search').keyup(function () {
 
             if (valid(inp[i])) {
                 var tempInp = detailedSearch(inp[i]); // возвращает значение исключая скобки
-
+                console.log(tempInp);
                 if (tempInp.charAt(0) == '-') { // условие на исключение
                     bool = true;
                     exception = true;
@@ -38,7 +38,7 @@ $('#search').keyup(function () {
                         if (exception && ((inp[i].length > 0 && i == 0) || (i != 0 && inp[i].length > 2))) { // поиск с исключением
                             bool = false;
                             break;
-                        } else if (!exception && (inp[i].length > 0 || i != 0)) { // поиск без исключения
+                        } else if (!exception && (tempInp != '' || i > 0)) { // поиск без исключения
                             bool = true;
                             break;
                         }
@@ -79,7 +79,13 @@ $('#search').keyup(function () {
         if(allItems!=0 && tempArray!=''){ // если в input ничего не указано, количество найденных элементов не будет выводится
             findItems += 'Найдено ';
             findItems += allItems;
-            findItems += ' елементов';
+            if (allItems === 1) {
+                findItems += ' елемент';
+            } else if (allItems === 2 || allItems === 3 || allItems === 4) {
+                findItems += ' елемента'
+            } else {
+                findItems += ' елементов';
+            }
         }
 
         if (allItems === 0) {  // если найденых элементов = 0 -> выдим алерт и убираем строку с результатом
