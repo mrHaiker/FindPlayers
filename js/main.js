@@ -4,52 +4,28 @@ $('#search').keyup(function () {
 
     // получение данных с сервера
     $.getJSON('json/players.json', function (data) {
-        var output = '<ul class="results">';
+        $('.results').empty();
         var allItems = 0; // переменная которая выведет количество найденых совпадений
         $.each(data, function (key, val) {
             var strSearchBox = val.position+" "+val.nationality+" "+val.name+" "+val.id;
             var SearchBox = strSearchBox.split(' ');
             if(SearchInArray(tempArray,SearchBox)) {
                 allItems += 1;
-                output += '<li>';
-                output += '<div class="thumbnail ">';
-                output += '<img src="http://placehold.it/150x150" alt="">';
-                output += '<div class="title">';
-                output += '<h2 class="name">' + val.name + '</h2>';
-                output += '<p class="id">' + val.id + '</p>';
-                output += '<p class="position">' + val.position + '</p>';
-                output += '<p class="nationaly">' + val.nationality + '</p>';
-                output += '<p class="marketValue">' + val.marketValue + '</p>';
-                output += '</div>';
-                output += '</li>';
+                constructorOutput(val.name, val.id, val.position, val.nationalyty, val.marketValue);
             }
         });
         // вывод на экран
-        var findItems = '';
+        if (allItems === 0 && tempArray!='') {  // если найденых элементов = 0 -> выводим
+            $($('<div class="alert alert-danger" role="alert"><b>Увы</b>, но по Вашему запросу ничего не найдено</div>')).prependTo('.results');
+        }
 
+        var findItems = ''; // количество найденных элементов
         if(allItems!=0 && tempArray!=''){ // если в input ничего не указано, количество найденных элементов не будет выводится
-            findItems += 'Найдено ';
+            findItems = 'Найдено ';
             findItems += allItems;
-            if (allItems === 1) {
-                findItems += ' елемент';
-            } else if (allItems === 2 || allItems === 3 || allItems === 4) {
-                findItems += ' елемента'
-            } else {
-                findItems += ' елементов';
-            }
+            findItems += keyWord(allItems); //получаем слово "элеметнов" видоизменееное под число
         }
-
-        if (allItems === 0) {  // если найденых элементов = 0 -> выдим алерт и убираем строку с результатом
-            output = '<div class="alert alert-danger" role="alert"><b>Увы</b>, но по Вашему запросу ничего не найдено</div>';
-        }
-
         $('#find-items').text(findItems);
-        output += '</ul>';
-        if(textInput === ''){
-            output = '';
-        }
-
-        $('.update').html(output);
     });
 });
 
