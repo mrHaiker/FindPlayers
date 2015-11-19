@@ -49,7 +49,7 @@ function SearchInArray (inp, array){
 // конструктор вывода элементов
 function constructorOutput(name, id, position, nationality, marketValue){
     $('<li>').prependTo('.results')
-        .append($('<div class="thumbnail">' +
+        .append('<div class="thumbnail">' +
             '<img src="http://placehold.it/150x150" alt="">' +
             '<div class="title">' +
             '<h2 class="name">' + name + '</h2>' +
@@ -58,7 +58,7 @@ function constructorOutput(name, id, position, nationality, marketValue){
             '<p class="nationaly">' + nationality + '</p>' +
             '<p class="marketValue">' + marketValue + '</p>' +
             '</div>' +
-            '</div>'));
+            '</div>');
 }
 
 // функция меняет слово в зависимости от числа

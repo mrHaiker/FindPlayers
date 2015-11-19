@@ -18,7 +18,7 @@ var main = function () {
 
             // вывод на экран
             if (allItems === 0 && tempArray != '') {  // если найденых элементов = 0 -> выводим алерт
-                $($('<div class="alert alert-danger" role="alert"><b>Увы</b>, но по Вашему запросу ничего не найдено</div>')).prependTo('.results');
+                $('<div class="alert alert-danger" role="alert"><b>Увы</b>, но по Вашему запросу ничего не найдено</div>').prependTo('.results');
             }
 
             var findItems = ''; // количество найденных элементов
